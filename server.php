@@ -9,6 +9,7 @@ $allowedResourceTypes = [
 ];
 
 $resourceType = $_GET['resource_type'];
+
 if ( !in_array( $resourceType, $allowedResourceTypes ) ) {
 	http_response_code( 400 );
 	echo json_encode(
@@ -83,7 +84,8 @@ switch ( strtoupper( $method ) ) {
 
 		$books[] = json_decode( $json );
 
-		echo array_keys($books)[count($books)-1];
+		// echo array_keys($books)[count($books)-1];
+		echo json_encode($books);
 		break;
 	case 'PUT':
 		if ( !empty($resourceId) && array_key_exists( $resourceId, $books ) ) {
@@ -91,12 +93,14 @@ switch ( strtoupper( $method ) ) {
 			
 			$books[ $resourceId ] = json_decode( $json, true );
 
-			echo $resourceId;
+			echo json_encode($books);
+			// echo $resourceId;
 		}
 		break;
 	case 'DELETE':
 		if ( !empty($resourceId) && array_key_exists( $resourceId, $books ) ) {
 			unset( $books[ $resourceId ] );
+			echo json_encode($books);
 		}
 		break;
 	default:
